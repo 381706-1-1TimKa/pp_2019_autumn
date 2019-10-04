@@ -3,8 +3,8 @@
 #define RECTANGLES_INTEGRATION_H_
 
 double fun(double x);
-double Integration(double a, double b, int k);
-double ParIntegration(double a, double b, int k);
+double Integration(double(*f)(double), double a, double b, int k);
+double ParIntegration(double(*f)(double), double a, double b, int k);
 
 #endif // !RECTANGLES_INTEGRATION.H
 
