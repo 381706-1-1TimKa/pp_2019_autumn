@@ -136,22 +136,22 @@ TEST(Rec_int, test5) {
   }
 }
 
-TEST(Rec_int, test6) {
-  double res;
-  double a = 1.0;
-  double b = 4.0;
-  double c = -5.0;
-  double k1 = rand()/2000;
-  double k2 = rand()/2000;
-  double correct = QuadrFunInt(a, b, c, k1, k2);
-  int n = 2000000;
-  int rank;
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  res = ParIntegration(f5, k1, k2, n);
-  if (rank == 0) {
-    ASSERT_NEAR(correct, res, 1e-5);
-  }
-}
+//TEST(Rec_int, test6) {
+//  double res;
+//  double a = 1.0;
+//  double b = 4.0;
+//  double c = -5.0;
+//  double k1 = rand()/2000;
+//  double k2 = std::rand()/2000;
+//  double correct = QuadrFunInt(a, b, c, k1, k2);
+//  int n = 2000000;
+//  int rank;
+//  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+//  res = ParIntegration(f5, k1, k2, n);
+//  if (rank == 0) {
+//    ASSERT_NEAR(correct, res, 1e-5);
+//  }
+//}
 
 
 
