@@ -136,7 +136,7 @@ TEST(Rec_int, test5) {
   }
 }
 
-//TEST(Rec_int, test6) {
+//  TEST(Rec_int, test6) {
 //  double res;
 //  double a = 1.0;
 //  double b = 4.0;
@@ -151,7 +151,7 @@ TEST(Rec_int, test5) {
 //  if (rank == 0) {
 //    ASSERT_NEAR(correct, res, 1e-5);
 //  }
-//}
+//  }
 
 
 
