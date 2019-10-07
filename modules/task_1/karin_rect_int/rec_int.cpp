@@ -1,8 +1,8 @@
-//Copyright 2019 Karin Timofey
+// Copyright 2019 Karin Timofey
 #include <mpi.h>
 #include <iostream>
 #include <cmath>
-#include "rectangles integration.h"
+#include "../../../modules/task_1/karin_rect_int/rec_int.h"
 
 double QuadrFunInt(double a, double b, double c, double k1, double k2) {
   return (a * k2 * k2 * k2 / 3 + b * k2 * k2 / 2 + c * k2) - (a * k1 * k1 * k1 / 3 + b * k1 * k1 / 2 + c * k1);
@@ -21,7 +21,6 @@ double Integration(double(*f)(double), double a, double b, int k) {
 double ParIntegration(double(*f)(double), double a, double b, int k) {
   if (k <= 0)
     throw -1;
-  
   int rank;
   int size;
 
@@ -34,7 +33,7 @@ double ParIntegration(double(*f)(double), double a, double b, int k) {
   double h = (b - a) / k;
 
   for (int i = rank + 1; i <= k; i += size) {
-    x = a + (h * ((double)i - 0.5));
+    x = a + (h * (static_cast<double>(i) - 0.5));
     local_res += f(x)*h;
   }
 

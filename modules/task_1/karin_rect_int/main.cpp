@@ -1,8 +1,9 @@
-//Copyright 2019 Karin Timofey
+// Copyright 2019 Karin Timofey
+#include <stdlib.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include "./rectangles integration.h"
-#include <stdlib.h>
+#include "./rec_int.h"
+using namespace std;
 
 double f1(double x) {
   return 3;
@@ -42,7 +43,7 @@ TEST(Rect_int, can_change_a_and_b) {
     ASSERT_NEAR(res1, -res2, 1e-6);
   }
 }
-  
+
 TEST(Rect_int, correct_with_a_a) {
   double res;
   double a = 1;
@@ -117,8 +118,7 @@ TEST(Rec_int, test4) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   res = ParIntegration(f3, a, b, n);
-  if (rank == 0)
-  {
+  if (rank == 0) {
     ASSERT_NEAR(correct, res, 1e-6);
   }
 }
@@ -148,7 +148,7 @@ TEST(Rec_int, test6) {
   int n = 2000000;
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  res = ParIntegration(f5, k1, k2, n); 
+  res = ParIntegration(f5, k1, k2, n);
   if (rank == 0) {
     ASSERT_NEAR(correct, res, 1e-5);
   }
