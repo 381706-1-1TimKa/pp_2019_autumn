@@ -6,7 +6,6 @@
 
 double QuadrFunInt(double a, double b, double c, double k1, double k2) {
   return (a * k2 * k2 * k2 / 3 + b * k2 * k2 / 2 + c * k2) - (a * k1 * k1 * k1 / 3 + b * k1 * k1 / 2 + c * k1);
-  //return (a / 3 * (k2*k2*k2-k1*k1*k1) + b / 2 * (k2*k2-k1*k1) + c * (k2 - k1));
 }
 
 double Integration(double(*f)(double), double a, double b, int k) {

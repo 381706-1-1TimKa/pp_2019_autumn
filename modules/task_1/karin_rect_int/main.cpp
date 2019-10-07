@@ -3,7 +3,6 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include "./rec_int.h"
-using namespace std;
 
 double f1(double x) {
   return 3;
