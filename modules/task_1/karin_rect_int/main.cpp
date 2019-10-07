@@ -1,6 +1,8 @@
+//Copyright 2019 Karin Timofey
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include "./rectangles integration.h"
+#include <stdlib.h>
 
 double f1(double x)
 {
@@ -20,6 +22,11 @@ double f3(double x)
 double f4(double x)
 {
 	return (sin(2/x));
+}
+
+double f5(double x)
+{
+	return 1 * x * x + 4 * x - 5;
 }
 
 TEST(Rec_int, negative_rectangles_number)
@@ -150,6 +157,26 @@ TEST(Rec_int, test5)
 		ASSERT_NEAR(correct, res, 1e-6);
 	}
 }
+
+TEST(Rec_int, test6)
+{
+	double res;
+	double a = 1.0;
+	double b = 4.0;
+	double c = -5.0;
+	double k1 = rand()/2000;
+	double k2 = rand()/2000;
+	double correct = QuadrFunInt(a, b, c, k1, k2);
+	int n = 2000000;
+	int rank;
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	res = ParIntegration(f5, k1, k2, n);
+	if (rank == 0)
+	{
+		ASSERT_NEAR(correct, res, 1e-5);
+	}
+}
+
 
 
 int main(int argc, char** argv) {
