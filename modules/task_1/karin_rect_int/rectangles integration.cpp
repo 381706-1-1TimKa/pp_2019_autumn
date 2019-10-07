@@ -12,14 +12,13 @@ double QuadrFunInt(double a, double b, double c, double k1, double k2) {
 double Integration(double(*f)(double), double a, double b, int k) {
   double res = 0;
   double h = (b - a) / k;
-  for (double x = a+h/2; x < b + 1e-6; x += h)
-  {
+  for (double x = a+h/2; x < b + 1e-6; x += h) {
     res += f(x) * h;
   }
   return res;
 }
 
-double ParIntegration(double(*f)(double), double a, double b, int k){
+double ParIntegration(double(*f)(double), double a, double b, int k) {
   if (k <= 0)
     throw -1;
   
@@ -34,8 +33,7 @@ double ParIntegration(double(*f)(double), double a, double b, int k){
   double x;
   double h = (b - a) / k;
 
-  for (int i = rank + 1; i <= k; i += size)
-  {
+  for (int i = rank + 1; i <= k; i += size) {
     x = a + (h * ((double)i - 0.5));
     local_res += f(x)*h;
   }
