@@ -1,4 +1,4 @@
-
+//Copyright 2019 Karin Timofey
 #ifndef RECTANGLES_INTEGRATION_H_
 #define RECTANGLES_INTEGRATION_H_
 
