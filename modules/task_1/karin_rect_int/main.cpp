@@ -13,11 +13,11 @@ double f2(double x) {
 }
 
 double f3(double x) {
-  return 2*x+(3/sqrt(x));
+  return 2*x+(3/std::sqrt(x));
 }
 
 double f4(double x) {
-  return (sin(2/x));
+  return (std::sin(2/x));
 }
 
 double f5(double x) {
