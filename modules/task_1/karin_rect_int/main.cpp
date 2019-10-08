@@ -152,7 +152,7 @@ TEST(Rec_int, test5) {
   if (rank == 0) {
     ASSERT_NEAR(correct, res, 1);
   }
- }
+}
 
 
 
