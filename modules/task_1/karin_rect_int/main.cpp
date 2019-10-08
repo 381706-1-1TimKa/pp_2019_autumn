@@ -1,9 +1,9 @@
 // Copyright 2019 Karin Timofey
 #include <stdlib.h>
-#include <cmath>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include "./rec_int.h"
+#include <cmath>
 
 double f1(double x) {
   return 3;
