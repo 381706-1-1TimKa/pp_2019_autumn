@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
-#include "./rec_int.h"
 #include <cmath>
+#include "./rec_int.h"
 
 double f1(double x) {
   return 3;
