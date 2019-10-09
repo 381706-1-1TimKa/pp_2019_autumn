@@ -3,7 +3,6 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <cmath>
-#include <random>
 #include "./rec_int.h"
 
 double f1(double x) {
@@ -143,8 +142,8 @@ TEST(Rec_int, test5) {
   double a = 1.0;
   double b = 4.0;
   double c = -5.0;
-  double k1 = rand()/2000;
-  double k2 = rand()/2000;
+  double k1 = GetRand();
+  double k2 = GetRand();
   double correct = QuadrFunInt(a, b, c, k1, k2);
   int n = 200000;
   int rank;

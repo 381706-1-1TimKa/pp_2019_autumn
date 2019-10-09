@@ -2,7 +2,12 @@
 #include <mpi.h>
 #include <iostream>
 #include <cmath>
+#include <random>
 #include "../../../modules/task_1/karin_rect_int/rec_int.h"
+
+double GetRand() {
+  return rand()/2000;
+}
 
 double QuadrFunInt(double a, double b, double c, double k1, double k2) {
   return (a * k2 * k2 * k2 / 3 + b * k2 * k2 / 2 + c * k2) - (a * k1 * k1 * k1 / 3 + b * k1 * k1 / 2 + c * k1);
