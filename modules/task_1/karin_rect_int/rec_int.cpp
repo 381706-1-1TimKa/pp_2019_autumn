@@ -6,7 +6,7 @@
 #include "../../../modules/task_1/karin_rect_int/rec_int.h"
 
 double GetRand() {
-  return rand()/2000;
+  return rand()%2000;
 }
 
 double QuadrFunInt(double a, double b, double c, double k1, double k2) {
