@@ -143,9 +143,8 @@ TEST(Rec_int, test5) {
   double a = 1.0;
   double b = 4.0;
   double c = -5.0;
-  unsigned int *a1, *a2;
-  int k1 = std::rand_r(a1)/2000;
-  double k2 = std::rand_r(a2)/2000;
+  double k1 = rand()/2000;
+  double k2 = rand()/2000;
   double correct = QuadrFunInt(a, b, c, k1, k2);
   int n = 200000;
   int rank;
