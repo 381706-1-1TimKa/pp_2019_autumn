@@ -27,7 +27,6 @@ double ParIntegration(double(*f)(double), double a, double b, int k) {
     throw -1;
   int rank;
   int size;
-
   double res,
     local_res = 0.0;
 

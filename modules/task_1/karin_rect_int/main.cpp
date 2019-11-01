@@ -22,7 +22,7 @@ double f4(double x) {
 }
 
 double f5(double x) {
-  return 1 * x * x + 4 * x - 5;
+  return 1.0 * x * x + 4.0 * x - 5.0;
 }
 
 TEST(Rec_int, negative_rectangles_number) {
