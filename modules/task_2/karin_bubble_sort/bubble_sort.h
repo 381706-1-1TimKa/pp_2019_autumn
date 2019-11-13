@@ -1,0 +1,9 @@
+// Copyright 2019 Karin Timofey
+#ifndef MODULES_TASK_2_KARIN_BUBBLE_SORT_H_
+#define MODULES_TASK_2_KARIN_BUBBLE_SORT_H_
+
+std::vector<int> GetRandVec(int size);
+void BubbleSort(std::vector<int>& vect, int length);
+std::vector<int> ParBubbleSort(std::vector<int>& vect, int len);
+
+#endif  // MODULES_TASK_1_KARIN_BUBBLE_SORT_H_
