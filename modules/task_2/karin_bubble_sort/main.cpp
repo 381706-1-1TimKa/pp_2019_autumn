@@ -11,16 +11,16 @@ TEST(BubbleSort, values_are_sorted) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   std::vector<int> vec;
   if (rank == 0) {
-    for (int i=100; i>0; i--)
+    for (int i = 100; i > 0; i--)
       vec.push_back(i);
   }
   std::vector<int> res; 
   res = ParBubbleSort(vec);
   if (rank == 0) {
-     for (int i=0; i<100; i++)
+     for (int i = 0; i < 100; i++)
      std::cout << res[i]<< " ";
      std::cout<<std::endl<<std::endl;
-    for (int i=0; i<res.size()-1; i++)
+    for (int i = 0; i < res.size() - 1; i++)
     ASSERT_TRUE(res[i]<=res[i+1]);
   }
 }
@@ -110,7 +110,7 @@ TEST(BubbleSort, Can_not_create_vector_negative_size) {
 
 TEST(BubbleSort, sort_is_working) {
   std::vector<int> vec, res;
-  for (int i=100; i>0; i--)
+  for (int i = 100; i > 0; i--)
     vec.push_back(i);
   res = BubbleSort(vec, 100);
   ASSERT_TRUE(res[29] == 30);
