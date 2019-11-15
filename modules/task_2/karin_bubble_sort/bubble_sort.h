@@ -4,6 +4,8 @@
 
 std::vector<int> GetRandVec(int size);
 void BubbleSort(std::vector<int>& vect, int length);
-std::vector<int> ParBubbleSort(std::vector<int>& vect, int len);
+std::vector<int> GetMinVec(std::vector<int>& local_vec, int local_size, std::vector<int>& neig_vec, int neig_size);
+std::vector<int> GetMaxVec(std::vector<int>& local_vec, int local_size, std::vector<int>& neig_vec, int neig_size);
+std::vector<int> ParBubbleSort(std::vector<int>& vect);
 
 #endif  // MODULES_TASK_1_KARIN_BUBBLE_SORT_H_

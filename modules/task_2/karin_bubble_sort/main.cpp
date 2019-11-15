@@ -16,16 +16,13 @@ TEST(Check, 1)
     for (int i=100; i>0; i--)
       vec.push_back(i);
   }
-   std::vector<int> res; 
-   res = ParBubbleSort(vec, 100);
-    
-    if (rank == 0)
-    {
-      std::cout << vec.size() <<std::endl;
-
-      for (int i=0; i<res.size(); i++)
-        std::cout << res[i] << " ";
-    }
+  std::vector<int> res; 
+  res = ParBubbleSort(vec);
+  if (rank == 0)
+  {
+    for (int i=0; i<res.size()-1; i++)
+    ASSERT_TRUE(res[i]<=res[i+1]);
+  }
 }
 
 TEST(BubbleSort, Can_create_vector)
