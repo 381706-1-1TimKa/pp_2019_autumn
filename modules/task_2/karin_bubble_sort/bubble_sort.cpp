@@ -116,8 +116,8 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
   local_vec = BubbleSort(local_vec, local_size);
 
   for (int i = 0; i < size; i++) {
-    if (i%2 == 0) {  //чётная итерация
-      if (rank % 2 == 0) {  //чётный процесс
+    if (i%2 == 0) {  //even iter
+      if (rank % 2 == 0) {  //even proc
         neig_rank = rank + 1;
         if (neig_rank >= size)
           continue;
@@ -125,7 +125,7 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
         MPI_Send(&local_vec[0], local_size, MPI_INT, neig_rank, 4, MPI_COMM_WORLD);
         MPI_Recv(&neig_vec[0], neig_size, MPI_INT, neig_rank, 5, MPI_COMM_WORLD, &st5);
         local_vec = GetMinVec(local_vec, local_size, neig_vec, neig_size);
-      } else {  // нечётный процесс
+      } else {  // odd proc
         neig_rank = rank - 1;
         if (neig_rank < 0)
           continue;
@@ -136,8 +136,8 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
         MPI_Send(&local_vec[0], local_size, MPI_INT, neig_rank, 5, MPI_COMM_WORLD);
         local_vec = GetMaxVec(local_vec, local_size, neig_vec, neig_size);
       }
-    } else {  //нечётная итерация
-      if (rank % 2 == 0) {  //чётный процесс
+    } else {  // odd iter
+      if (rank % 2 == 0) {  // even proc
         neig_rank = rank - 1;
         if (neig_rank < 0)
           continue;
@@ -145,7 +145,7 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
         MPI_Send(&local_vec[0], local_size, MPI_INT, neig_rank, 7, MPI_COMM_WORLD);
         MPI_Recv(&neig_vec[0], neig_size, MPI_INT, neig_rank, 6, MPI_COMM_WORLD, &st7);
         local_vec = GetMaxVec(local_vec, local_size, neig_vec, neig_size);
-      } else {  // нечётный процесс
+      } else {  // odd proc
         neig_rank = rank + 1;
         if (neig_rank >= size)
           continue;
