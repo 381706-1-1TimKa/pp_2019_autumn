@@ -80,16 +80,22 @@ TEST(BubbleSort, Rand_Vector_2000) {
      std::cout<<std::endl<<std::endl;*/
   }
   std::vector<int> Pres;
+  double par1 = MPI_Wtime();
   Pres = ParBubbleSort(vec);
+  double par2 = MPI_Wtime();
   if (rank == 0) {
     /* for (int i = 0; i < n; i++)
        std::cout << Pres[i] << " ";
      std::cout << std::endl<<std::endl;*/
     std::vector<int> Sres;
+    double sec1 = MPI_Wtime();
     Sres = BubbleSort(vec, n);
+    double sec2 = MPI_Wtime();
     /*for (int i = 0; i < n; i++)
       std::cout << Sres[i] << " ";
     std::cout << std::endl << std::endl;*/
+    std::cout << "Par = " << par2-par1<<std::endl;
+    std::cout << "Sec = " << sec2 - sec1 << std::endl;
     ASSERT_EQ(Pres, Sres);
   }
 }

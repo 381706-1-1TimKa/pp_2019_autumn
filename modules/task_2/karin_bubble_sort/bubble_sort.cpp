@@ -38,9 +38,7 @@ std::vector<int> GetMinVec(const std::vector<int>& local_vec, int local_size,
   int it1 = 0;
   int it2 = 0;
   for (int i = 0; i < local_size; i++) {
-    if (it2 >= neig_size)
-      break;
-    if (local_vec[it1] > neig_vec[it2]) {
+    if ((local_vec[it1] > neig_vec[it2]) && (it2 < neig_size)) {
       res[i] = neig_vec[it2];
       it2++;
     } else {
@@ -57,9 +55,7 @@ std::vector<int> GetMaxVec(const std::vector<int>& local_vec, int local_size,
   int it1 = local_size - 1;
   int it2 = neig_size - 1;
   for (int i = local_size - 1; i >= 0; i--) {
-    if (it2 < 0)
-      break;
-    if (local_vec[it1] < neig_vec[it2]) {
+    if ((local_vec[it1] < neig_vec[it2]) && (it2 >=0)) {
       res[i] = neig_vec[it2];
       it2--;
     } else {
@@ -114,7 +110,7 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
 
   local_vec = BubbleSort(local_vec, local_size);
 
-  for (int i = 0; i < size; i++) {
+  for (int i = 0; i < size+ost; i++) {
     if (i%2 == 0) {  // even iter
       if (rank % 2 == 0) {  // even proc
         neig_rank = rank + 1;
