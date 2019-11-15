@@ -20,10 +20,10 @@ std::vector<int> GetRandVec(int size) {
   return vec;
 }
 
-std::vector<int> BubbleSort(std::vector<int>& vect, int length) {
+std::vector<int> BubbleSort(const std::vector<int>& vect, int length) {
   int tmp;
-  std::vector<int> res (vect);
-  for (int i = 0; i < length; i++){
+  std::vector<int> res(vect);
+  for (int i = 0; i < length; i++) {
     for (int j = 0; j < length - i - 1; j++) {
       if (res[j] > res[j + 1])
         std::swap(res[j], res[j + 1]);
@@ -32,7 +32,7 @@ std::vector<int> BubbleSort(std::vector<int>& vect, int length) {
   return res;
 }
 
-std::vector<int> GetMinVec(std::vector<int>& local_vec, int local_size, std::vector<int>& neig_vec, int neig_size) {
+std::vector<int> GetMinVec(const std::vector<int>& local_vec, int local_size, const std::vector<int>& neig_vec, int neig_size) {
   std::vector<int> res(local_vec);
   int it1 = 0;
   int it2 = 0;
@@ -42,8 +42,7 @@ std::vector<int> GetMinVec(std::vector<int>& local_vec, int local_size, std::vec
     if (local_vec[it1] > neig_vec[it2]) {
       res[i] = neig_vec[it2];
       it2++;
-    }
-    else{
+    } else {
       res[i] = local_vec[it1];
       it1++;
     }
@@ -51,7 +50,7 @@ std::vector<int> GetMinVec(std::vector<int>& local_vec, int local_size, std::vec
   return res;
 }
 
-std::vector<int> GetMaxVec(std::vector<int>& local_vec, int local_size, std::vector<int>& neig_vec, int neig_size) {
+std::vector<int> GetMaxVec(const std::vector<int>& local_vec, int local_size, const std::vector<int>& neig_vec, int neig_size) {
   std::vector<int> res(local_vec);
   int it1 = local_size - 1;
   int it2 = neig_size - 1;
@@ -61,8 +60,7 @@ std::vector<int> GetMaxVec(std::vector<int>& local_vec, int local_size, std::vec
     if (local_vec[it1] < neig_vec[it2]) {
       res[i] = neig_vec[it2];
       it2--;
-    }
-    else{
+    } else {
       res[i] = local_vec[it1];
       it1--;
     }
@@ -70,7 +68,7 @@ std::vector<int> GetMaxVec(std::vector<int>& local_vec, int local_size, std::vec
   return res;
 }
 
-std::vector<int> ParBubbleSort(std::vector<int>& vect)
+std::vector<int> ParBubbleSort(const std::vector<int>& vect)
 {
   int rank, size;
   MPI_Comm_size(MPI_COMM_WORLD, &size);
@@ -78,12 +76,11 @@ std::vector<int> ParBubbleSort(std::vector<int>& vect)
   int length;
   int it1, it2, local_size, neig_size, neig_rank;
 
-  if (rank == 0){
+  if (rank == 0) {
     length = vect.size();
     for (int i = 1; i < size; i++)
       MPI_Send(&length, 1, MPI_INT, i, 1, MPI_COMM_WORLD);
-  }
-  else{
+  } else {
     MPI_Status st1;
     MPI_Recv(&length, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &st1);
   }
@@ -91,15 +88,13 @@ std::vector<int> ParBubbleSort(std::vector<int>& vect)
   int num = length / size;
   int ost = length % size;
 
-  if (rank == 0){
+  if (rank == 0) {
     local_size = num+ost;
     neig_size = num;
-  }
-  else if (rank == 1) {
+  } else if (rank == 1) {
     local_size = num;
     neig_size = num+ost;
-  }
-  else
+  } else
     local_size = neig_size = num;
 
   std::vector<int> local_vec(local_size);
@@ -111,8 +106,7 @@ std::vector<int> ParBubbleSort(std::vector<int>& vect)
       MPI_Send(&vect[0]+ost+i*num, num, MPI_INT, i, 2, MPI_COMM_WORLD);
     for (int i=0; i<local_size; i++)
       local_vec[i] = vect[i];
-  }
-  else {
+  } else {
     MPI_Status st;
     MPI_Recv(&local_vec[0], num, MPI_INT, 0, 2, MPI_COMM_WORLD, &st);
   }
@@ -129,8 +123,7 @@ std::vector<int> ParBubbleSort(std::vector<int>& vect)
         MPI_Send (&local_vec[0], local_size, MPI_INT, neig_rank, 4, MPI_COMM_WORLD);
         MPI_Recv (&neig_vec[0], neig_size, MPI_INT, neig_rank, 5, MPI_COMM_WORLD, &st5);
         local_vec = GetMinVec(local_vec, local_size, neig_vec, neig_size);
-      }
-      else { // нечётный процесс
+      } else { // нечётный процесс
         neig_rank = rank - 1;
         if (neig_rank < 0)
           continue;
@@ -141,8 +134,7 @@ std::vector<int> ParBubbleSort(std::vector<int>& vect)
         MPI_Send(&local_vec[0], local_size, MPI_INT, neig_rank, 5, MPI_COMM_WORLD);
         local_vec = GetMaxVec(local_vec, local_size, neig_vec, neig_size);
       }
-    }
-    else { //нечётная итерация
+    } else { //нечётная итерация
       if (rank % 2 == 0) { //чётный процесс
         neig_rank = rank - 1;
         if (neig_rank < 0)
@@ -151,8 +143,7 @@ std::vector<int> ParBubbleSort(std::vector<int>& vect)
         MPI_Send(&local_vec[0], local_size, MPI_INT, neig_rank, 7, MPI_COMM_WORLD);
         MPI_Recv(&neig_vec[0], neig_size, MPI_INT, neig_rank, 6, MPI_COMM_WORLD, &st7);
         local_vec = GetMaxVec(local_vec, local_size, neig_vec, neig_size);
-      }
-      else { // нечётный процесс
+      } else { // нечётный процесс
         neig_rank = rank + 1;
         if (neig_rank >= size)
           continue;
@@ -177,8 +168,7 @@ std::vector<int> ParBubbleSort(std::vector<int>& vect)
       MPI_Recv(&neig_vec[0], num, MPI_INT, i, 8, MPI_COMM_WORLD, &status);
       res.insert(res.end(), neig_vec.begin(), neig_vec.end());
     }
-  }
-  else {
+  } else {
     MPI_Send(&local_vec[0], num, MPI_INT, 0, 8, MPI_COMM_WORLD);
   }
   //if(rank >= 0)
