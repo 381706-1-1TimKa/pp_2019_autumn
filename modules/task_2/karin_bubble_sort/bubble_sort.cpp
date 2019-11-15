@@ -6,6 +6,7 @@
 #include <ctime>
 #include <algorithm>
 #include <iostream>
+#include <utility>
 #include "../../../modules/task_2/karin_bubble_sort/bubble_sort.h"
 
 std::vector<int> GetRandVec(int size) {
@@ -32,7 +33,7 @@ std::vector<int> BubbleSort(const std::vector<int>& vect, int length) {
   return res;
 }
 
-std::vector<int> GetMinVec(const std::vector<int>& local_vec, int local_size, 
+std::vector<int> GetMinVec(const std::vector<int>& local_vec, int local_size,
                             const std::vector<int>& neig_vec, int neig_size) {
   std::vector<int> res(local_vec);
   int it1 = 0;
@@ -51,7 +52,7 @@ std::vector<int> GetMinVec(const std::vector<int>& local_vec, int local_size,
   return res;
 }
 
-std::vector<int> GetMaxVec(const std::vector<int>& local_vec, int local_size, 
+std::vector<int> GetMaxVec(const std::vector<int>& local_vec, int local_size,
                             const std::vector<int>& neig_vec, int neig_size) {
   std::vector<int> res(local_vec);
   int it1 = local_size - 1;
@@ -95,17 +96,17 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
   } else if (rank == 1) {
     local_size = num;
     neig_size = num+ost;
-  } else
+  } else {
     local_size = neig_size = num;
-
+  }
   std::vector<int> local_vec(local_size);
   std::vector<int> neig_vec(neig_size);
   std::vector<int> res(local_size);
 
   if (rank == 0) {
-    for (int i=1; i<size; i++)
+    for (int i = 1; i < size; i++)
       MPI_Send(&vect[0]+ost+i*num, num, MPI_INT, i, 2, MPI_COMM_WORLD);
-    for (int i=0; i<local_size; i++)
+    for (int i = 0; i < local_size; i++)
       local_vec[i] = vect[i];
   } else {
     MPI_Status st;
@@ -121,8 +122,8 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
         if (neig_rank >= size)
           continue;
         MPI_Status st5;
-        MPI_Send (&local_vec[0], local_size, MPI_INT, neig_rank, 4, MPI_COMM_WORLD);
-        MPI_Recv (&neig_vec[0], neig_size, MPI_INT, neig_rank, 5, MPI_COMM_WORLD, &st5);
+        MPI_Send(&local_vec[0], local_size, MPI_INT, neig_rank, 4, MPI_COMM_WORLD);
+        MPI_Recv(&neig_vec[0], neig_size, MPI_INT, neig_rank, 5, MPI_COMM_WORLD, &st5);
         local_vec = GetMinVec(local_vec, local_size, neig_vec, neig_size);
       } else {  // нечётный процесс
         neig_rank = rank - 1;
@@ -161,7 +162,7 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
       std::cout << local_vec[i] << " ";
     std::cout<<std::endl;*/
   }
-  
+
   if (rank == 0) {
     res = local_vec;
     for (int i = 1; i < size; i++) {
@@ -172,10 +173,10 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
   } else {
     MPI_Send(&local_vec[0], num, MPI_INT, 0, 8, MPI_COMM_WORLD);
   }
-  //if(rank >= 0)
-  //{std::cout<<"rank = " << rank <<" length=" << length<< "   ";
-  //for (int i=0; i<local_vec.size(); i++)
+  // if(rank >= 0)
+  // {std::cout<<"rank = " << rank <<" length=" << length<< "   ";
+  // for (int i=0; i<local_vec.size(); i++)
   //  std::cout << local_vec[i] << " ";
-  //std::cout<<std::endl;}
+  // std::cout<<std::endl;}
   return res;
 }

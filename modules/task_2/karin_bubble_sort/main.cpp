@@ -14,18 +14,18 @@ TEST(BubbleSort, values_are_sorted) {
     for (int i = 100; i > 0; i--)
       vec.push_back(i);
   }
-  std::vector<int> res; 
+  std::vector<int> res;
   res = ParBubbleSort(vec);
   if (rank == 0) {
-     for (int i = 0; i < 100; i++)
-     std::cout << res[i]<< " ";
-     std::cout<<std::endl<<std::endl;
+    /* for (int i = 0; i < 100; i++)
+     std::cout << res[i] << " ";
+     std::cout << std::endl << std::endl;*/
     for (int i = 0; i < res.size() - 1; i++)
-    ASSERT_TRUE(res[i]<=res[i+1]);
+      ASSERT_TRUE(res[i] <= res[i+1]);
   }
 }
 
-TEST(BubbleSort, Sequential_and_Parallel_vectors_are_equel){
+TEST(BubbleSort, Sequential_and_Parallel_vectors_are_equel) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   std::vector<int> vec;
@@ -42,7 +42,7 @@ TEST(BubbleSort, Sequential_and_Parallel_vectors_are_equel){
   }
 }
 
-TEST(BubbleSort, Rand_Vector_500){
+TEST(BubbleSort, Rand_Vector_500) {
   int n = 500;
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -68,7 +68,7 @@ TEST(BubbleSort, Rand_Vector_500){
   }
 }
 
-TEST(BubbleSort, Rand_Vector_2000){
+TEST(BubbleSort, Rand_Vector_2000) {
   int n = 2000;
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -113,7 +113,8 @@ TEST(BubbleSort, sort_is_working) {
   for (int i = 100; i > 0; i--)
     vec.push_back(i);
   res = BubbleSort(vec, 100);
-  ASSERT_TRUE(res[29] == 30);
+  for (int i=1; i < 100; i++)
+    ASSERT_EQ(res[i-1], i);
 }
 
 int main(int argc, char** argv) {
