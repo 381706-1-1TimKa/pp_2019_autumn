@@ -116,8 +116,8 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
   local_vec = BubbleSort(local_vec, local_size);
 
   for (int i = 0; i < size; i++) {
-    if (i%2 == 0) {  //even iter
-      if (rank % 2 == 0) {  //even proc
+    if (i%2 == 0) {  // even iter
+      if (rank % 2 == 0) {  // even proc
         neig_rank = rank + 1;
         if (neig_rank >= size)
           continue;
