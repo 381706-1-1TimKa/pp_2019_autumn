@@ -22,7 +22,6 @@ std::vector<int> GetRandVec(int size) {
 }
 
 std::vector<int> BubbleSort(const std::vector<int>& vect, int length) {
-  int tmp;
   std::vector<int> res(vect);
   for (int i = 0; i < length; i++) {
     for (int j = 0; j < length - i - 1; j++) {
@@ -76,7 +75,7 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
   MPI_Comm_size(MPI_COMM_WORLD, &size);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   int length;
-  int it1, it2, local_size, neig_size, neig_rank;
+  int local_size, neig_size, neig_rank;
 
   if (rank == 0) {
     length = vect.size();
