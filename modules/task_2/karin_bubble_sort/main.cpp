@@ -97,15 +97,17 @@ TEST(BubbleSort, Rand_Vector_2000) {
 TEST(BubbleSort, Can_create_vector) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  if (rank == 0)
+  if (rank == 0) {
     ASSERT_NO_THROW(std::vector<int> vec = GetRandVec(1000));
+  }
 }
 
 TEST(BubbleSort, Can_not_create_vector_negative_size) {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  if (rank == 0)
+  if (rank == 0) {
     ASSERT_ANY_THROW(std::vector<int> vec = GetRandVec(-1000));
+  }
 }
 
 TEST(BubbleSort, sort_is_working) {
