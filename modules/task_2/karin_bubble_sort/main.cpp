@@ -20,7 +20,7 @@ TEST(BubbleSort, values_are_sorted) {
     /* for (int i = 0; i < 100; i++)
      std::cout << res[i] << " ";
      std::cout << std::endl << std::endl;*/
-    for (int i = 0; i < res.size() - 1; i++)
+    for (unsigned int i = 0; i < res.size() - 1; i++)
       ASSERT_TRUE(res[i] <= res[i+1]);
   }
 }
