@@ -5,7 +5,6 @@
 #include <random>
 #include <ctime>
 #include <algorithm>
-#include <iostream>
 #include <utility>
 #include "../../../modules/task_2/karin_bubble_sort/bubble_sort.h"
 
@@ -152,10 +151,6 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
         local_vec = GetMinVec(local_vec, local_size, neig_vec, neig_size);
       }
     }
-   /* std::cout << "rank = " << rank << " nr = " << neig_rank << " neig_size =" << neig_size << " local_size = " << local_size << " iter = " << i << std::endl;
-    for (int i=0; i<local_size; i++)
-      std::cout << local_vec[i] << " ";
-    std::cout<<std::endl;*/
   }
 
   if (rank == 0) {
@@ -168,10 +163,5 @@ std::vector<int> ParBubbleSort(const std::vector<int>& vect) {
   } else {
     MPI_Send(&local_vec[0], num, MPI_INT, 0, 8, MPI_COMM_WORLD);
   }
-  // if(rank >= 0)
-  // {std::cout<<"rank = " << rank <<" length=" << length<< "   ";
-  // for (int i=0; i<local_vec.size(); i++)
-  //  std::cout << local_vec[i] << " ";
-  // std::cout<<std::endl;}
   return res;
 }
