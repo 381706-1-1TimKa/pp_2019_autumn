@@ -2,7 +2,6 @@
 #include <gtest-mpi-listener.hpp>
 #include <gtest/gtest.h>
 #include <vector>
-#include <iostream>
 #include "./bubble_sort.h"
 
 TEST(BubbleSort, Can_create_vector) {

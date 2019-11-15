@@ -1,7 +1,6 @@
 // Copyright 2019 Karin Timofey
 #include <mpi.h>
 #include <vector>
-#include <string>
 #include <random>
 #include <ctime>
 #include <algorithm>
