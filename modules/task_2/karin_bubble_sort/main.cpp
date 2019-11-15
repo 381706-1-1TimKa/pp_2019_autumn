@@ -6,7 +6,7 @@
 #include "./bubble_sort.h"
 
 
-TEST(Check, 1)
+TEST(BubbleSort, values_are_sorted)
 {
   int rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -20,8 +20,89 @@ TEST(Check, 1)
   res = ParBubbleSort(vec);
   if (rank == 0)
   {
+     for (int i=0; i<100; i++)
+     std::cout << res[i]<< " ";
+   std::cout<<std::endl<<std::endl;
     for (int i=0; i<res.size()-1; i++)
     ASSERT_TRUE(res[i]<=res[i+1]);
+  }
+}
+
+TEST(BubbleSort, Sequential_and_Parallel_vectors_are_equel)
+{
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  std::vector<int> vec;
+  if (rank == 0)
+  {
+    for (int i = 100; i > 0; i--)
+      vec.push_back(i);
+  }
+  std::vector<int> Pres;
+  Pres = ParBubbleSort(vec);
+  if (rank == 0)
+  {
+    std::vector<int> Sres;
+    Sres = BubbleSort(vec, 100);
+    ASSERT_EQ(Pres, Sres);
+  }
+}
+
+TEST(BubbleSort, Rand_Vector_500)
+{
+  int n = 500;
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  std::vector<int> vec;
+  if (rank == 0)
+  {
+    vec = GetRandVec(n);
+   /* for (int i=0; i<n; i++)
+      std::cout << vec[i]<< " ";
+    std::cout<<std::endl<<std::endl;*/
+  }
+  std::vector<int> Pres;
+  Pres = ParBubbleSort(vec);
+  if (rank == 0)
+  {
+   /* for (int i = 0; i < n; i++)
+      std::cout << Pres[i] << " ";
+    std::cout << std::endl<<std::endl;*/
+    std::vector<int> Sres;
+    Sres = BubbleSort(vec, n);
+    /*for (int i = 0; i < n; i++)
+      std::cout << Sres[i] << " ";
+    std::cout << std::endl << std::endl;*/
+    ASSERT_EQ(Pres, Sres);
+  }
+}
+
+TEST(BubbleSort, Rand_Vector_2000)
+{
+  int n = 2000;
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  std::vector<int> vec;
+  if (rank == 0)
+  {
+    vec = GetRandVec(n);
+    /* for (int i=0; i<n; i++)
+       std::cout << vec[i]<< " ";
+     std::cout<<std::endl<<std::endl;*/
+  }
+  std::vector<int> Pres;
+  Pres = ParBubbleSort(vec);
+  if (rank == 0)
+  {
+    /* for (int i = 0; i < n; i++)
+       std::cout << Pres[i] << " ";
+     std::cout << std::endl<<std::endl;*/
+    std::vector<int> Sres;
+    Sres = BubbleSort(vec, n);
+    /*for (int i = 0; i < n; i++)
+      std::cout << Sres[i] << " ";
+    std::cout << std::endl << std::endl;*/
+    ASSERT_EQ(Pres, Sres);
   }
 }
 
@@ -38,11 +119,11 @@ TEST(BubbleSort, Can_not_create_vector_negative_size)
 
 TEST(BubbleSort, sort_is_working)
 {
-  std::vector<int> vec;
+  std::vector<int> vec, res;
   for (int i=100; i>0; i--)
     vec.push_back(i);
-  BubbleSort(vec, 100);
-  ASSERT_TRUE(vec[29] == 30);
+  res = BubbleSort(vec, 100);
+  ASSERT_TRUE(res[29] == 30);
 }
 
 
