@@ -8,27 +8,30 @@ using namespace std;
 
 TEST(Radix_sort, radix_sort_is_working_with_unsigned)
 {
-
-  int* mas = new int[100];
+  vector<int> mas(100);
+  vector<int> res(100);
   for (int i=100; i>0; i--)
     mas[100-i] = i*i*i*i;
   //for (int i=0; i<100; i+=2)
   //  mas[i] = -mas[i];
-  Radix_sort(mas, 100);
+  res = Radix_sort(mas);
   for (int i=0; i<99; i++)
-    ASSERT_TRUE(mas[i]<=mas[i+1]);
+    ASSERT_TRUE(res[i]<=res[i+1]);
 }
 
 TEST(Radix_sort, radix_sort_is_working_with_signed)
 {
-  int* mas = new int[100];
+  vector<int> mas(100);
+  vector<int> res(100);
   for (int i = 100; i > 0; i--)
     mas[100 - i] = i * i * i * i;
   for (int i=0; i<100; i+=2)
     mas[i] = -mas[i];
-  Radix_sort(mas, 100);
+  res = Radix_sort(mas);
+  for (int i = 0; i < 100; i ++)
+    cout << res[i]<<endl;
   for (int i = 0; i < 99; i++)
-    ASSERT_TRUE(mas[i] <= mas[i + 1]);
+    ASSERT_TRUE(res[i] <= res[i + 1]);
 }
 
 int main(int argc, char** argv) {
