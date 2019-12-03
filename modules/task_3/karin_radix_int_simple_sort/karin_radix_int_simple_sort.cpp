@@ -31,39 +31,21 @@ void Radix_sort_iter(std::vector<int>& source, std::vector<int>& res,
   }
 
   int sum=0;
-  for (int i = 0; i < 256; i++) {
-    sum+=count[i];
-    count[i] = sum - count[i];
-  }
+  if (iter == 3) {
+    for (int i = 128; i < 256; i++) {
+      sum += count[i];
+      count[i] = sum - count[i];
+    }
 
-  long* cp;
-  for (int i = 0; i < n; i++) {
-    res[count[*br]] = source[i];
-    count[*br]++;
-    br += 4;
-  }
-}
-
-void Radix_sort_last_iter(std::vector<int>& source, std::vector<int>& res, long* count, long n) {
-  unsigned char* br = (unsigned char*)source.data() + 3;
-  for (int i = 0; i < 256; i++)
-    count[i] = 0;
-
-  unsigned char tmp;
-  for (int i = 0; i < n; i++) {
-    tmp = br[i * 4];
-    count[tmp]++;
-  }
-
-  int sum = 0;
-  for (int i = 128; i < 256; i++) {
-    sum += count[i];
-    count[i] = sum - count[i];
-  }
-
-  for (int i = 0; i < 128; i++) {
-    sum += count[i];
-    count[i] = sum - count[i];
+    for (int i = 0; i < 128; i++) {
+      sum += count[i];
+      count[i] = sum - count[i];
+    }
+  } else {
+    for (int i = 0; i < 256; i++) {
+      sum+=count[i];
+      count[i] = sum - count[i];
+    }
   }
 
   long* cp;
@@ -82,7 +64,7 @@ std::vector<int> Radix_sort(const std::vector<int>& vec) {
   Radix_sort_iter(source, res, count, length, 0);
   Radix_sort_iter(res, source, count, length, 1);
   Radix_sort_iter(source, res, count, length, 2);
-  Radix_sort_last_iter(res, source, count, length);
+  Radix_sort_iter(res, source, count, length, 3);
   delete[] count;
   return source;
 }
