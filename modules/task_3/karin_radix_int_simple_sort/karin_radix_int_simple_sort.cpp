@@ -49,7 +49,6 @@ std::vector<int> Radix_sort_iter(const std::vector<int>& source,
     }
   }
 
-  int* cp;
   for (int i = 0; i < n; i++) {
     res[count[*br]] = source[i];
     count[*br]++;
