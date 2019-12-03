@@ -167,10 +167,10 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
   {
     if (rank == 0 && i<=1)
     {
-    cout << "I am 0 rank. I am here"<<endl;
+    /*cout << "I am 0 rank. I am here"<<endl;
       for (int i=0; i<loc_size; i++)
         cout << local_vec[i]<<" ";
-      cout << endl;
+      cout << endl;*/
       return local_vec;
     }
     if (i % 2 == 1)
@@ -180,7 +180,7 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
         MPI_Status status1;
         neig_vec.resize(length*iter);
         sosed= pow2(iter - 1) * (i - 1);
-        cout <<"necot " << "rank = " << rank << " sosed=" << sosed << " iter=" << iter << " loc_size="<<loc_size << endl;
+        //cout <<"necot " << "rank = " << rank << " sosed=" << sosed << " iter=" << iter << " loc_size="<<loc_size << endl;
         MPI_Recv(&neig_vec[0], length*iter, MPI_INT, sosed, 1, MPI_COMM_WORLD, &status1);
         local_vec.resize(loc_size + length*iter);
         local_vec = Merge_sort(local_vec, loc_size, neig_vec, length*iter);
@@ -206,7 +206,7 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
       MPI_Recv(&neig_vec[0], length*iter, MPI_INT, sosed, 3, MPI_COMM_WORLD, &status3);
       local_vec = Merge_sort(local_vec, loc_size, neig_vec, length*iter);
       loc_size += length * iter;
-      cout << "rank = " << rank << " sosed=" << sosed << " iter=" << iter << " loc_size=" << loc_size << endl;
+      //cout << "rank = " << rank << " sosed=" << sosed << " iter=" << iter << " loc_size=" << loc_size << endl;
       /*for (int i=0; i<loc_size; i++)
         cout << local_vec[i]<< " ";
       cout << endl;*/
@@ -216,7 +216,7 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
       sosed = rank - pow2(iter-1);
       //cout << "rank = " << rank << " sosed=" << sosed << " iter=" << iter << "send" << endl;
       MPI_Send(&local_vec[0], length*iter, MPI_INT, sosed, 3, MPI_COMM_WORLD);
-      cout << rank << "ended"<<endl;
+      //cout << rank << "ended"<<endl;
       return local_vec;
     }
     iter++;

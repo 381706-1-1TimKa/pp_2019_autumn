@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+std::vector<int> GetRandVec(int size);
 void Radix_sort_iter(std::vector<int>& source, std::vector<int>& res, long* count, long n, int iter);
 void Radix_sort_last_iter(std::vector<int>& source, std::vector<int>& res, long* count, long n);
 std::vector<int> Radix_sort(const std::vector<int>& source);
