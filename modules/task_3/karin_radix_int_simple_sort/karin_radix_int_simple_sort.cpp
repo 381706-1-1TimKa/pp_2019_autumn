@@ -155,9 +155,14 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
   }
   
   local_vec = Radix_sort(local_vec);
+  /*cout << rank<<"____";
+  for (int i=0; i<local_vec.size(); i++)
+    cout << local_vec[i]<<" ";
+  cout << endl << endl;*/
 
   int i = size;
   int iter = 1;
+  int iter_length = length;
   int sosed;
   int loc_size = length;
   if (rank==0)
@@ -178,13 +183,13 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
       if (rank == 0)
       {
         MPI_Status status1;
-        neig_vec.resize(length*iter);
+        neig_vec.resize(iter_length);
         sosed= pow2(iter - 1) * (i - 1);
         //cout <<"necot " << "rank = " << rank << " sosed=" << sosed << " iter=" << iter << " loc_size="<<loc_size << endl;
-        MPI_Recv(&neig_vec[0], length*iter, MPI_INT, sosed, 1, MPI_COMM_WORLD, &status1);
-        local_vec.resize(loc_size + length*iter);
-        local_vec = Merge_sort(local_vec, loc_size, neig_vec, length*iter);
-        loc_size += length * iter;
+        MPI_Recv(&neig_vec[0], iter_length, MPI_INT, sosed, 1, MPI_COMM_WORLD, &status1);
+        local_vec.resize(loc_size + iter_length);
+        local_vec = Merge_sort(local_vec, loc_size, neig_vec, iter_length);
+        loc_size += length * pow2(iter-1);
         /*for (int i=0; i<loc_size; i++)
           cout << local_vec[i]<< " ";
         cout << endl<<endl;*/
@@ -192,7 +197,7 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
       }
       if (rank == pow2(iter - 1) * (i - 1))
       {
-        MPI_Send(&local_vec[0], length*iter, MPI_INT, 0, 1, MPI_COMM_WORLD);
+        MPI_Send(&local_vec[0], iter_length, MPI_INT, 0, 1, MPI_COMM_WORLD);
         return local_vec;
       }
     }
@@ -200,12 +205,12 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
     if (rank % pow2(iter) == 0)
     {
       sosed = rank + pow2(iter-1);
-      neig_vec.resize(length*iter);
-      local_vec.resize(loc_size + length*iter);
+      neig_vec.resize(iter_length);
+      local_vec.resize(loc_size + iter_length);
       MPI_Status status3;
-      MPI_Recv(&neig_vec[0], length*iter, MPI_INT, sosed, 3, MPI_COMM_WORLD, &status3);
-      local_vec = Merge_sort(local_vec, loc_size, neig_vec, length*iter);
-      loc_size += length * iter;
+      MPI_Recv(&neig_vec[0], iter_length, MPI_INT, sosed, 3, MPI_COMM_WORLD, &status3);
+      local_vec = Merge_sort(local_vec, loc_size, neig_vec, iter_length);
+      loc_size += length * pow2(iter-1);
       //cout << "rank = " << rank << " sosed=" << sosed << " iter=" << iter << " loc_size=" << loc_size << endl;
       /*for (int i=0; i<loc_size; i++)
         cout << local_vec[i]<< " ";
@@ -215,12 +220,13 @@ std::vector<int> Par_Radix_sort(std::vector<int> source)
     {
       sosed = rank - pow2(iter-1);
       //cout << "rank = " << rank << " sosed=" << sosed << " iter=" << iter << "send" << endl;
-      MPI_Send(&local_vec[0], length*iter, MPI_INT, sosed, 3, MPI_COMM_WORLD);
+      MPI_Send(&local_vec[0], iter_length, MPI_INT, sosed, 3, MPI_COMM_WORLD);
       //cout << rank << "ended"<<endl;
       return local_vec;
     }
     iter++;
     i = i/2;
+    iter_length*=2;
   }
 
   /*for (int i=0; i<length; i++)
