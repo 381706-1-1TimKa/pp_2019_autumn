@@ -18,11 +18,12 @@ std::vector<int> GetRandVec(int size) {
   return vec;
 }
 
-void Radix_sort_iter(std::vector<int>& source, std::vector<int>& res, 
-                     long* count, long n, int iter) {
+std::vector<int> Radix_sort_iter(const std::vector<int>& source,
+                     int* count, int n, int iter) {
+  std::vector<int> res(source.size());
   unsigned char* br = (unsigned char*)source.data() + iter;
-  for (int i=0; i<256; i++)
-    count[i]=0;
+  for (int i = 0; i < 256; i++)
+    count[i] = 0;
 
   unsigned char tmp;
   for (int i = 0; i < n; i++) {
@@ -30,7 +31,7 @@ void Radix_sort_iter(std::vector<int>& source, std::vector<int>& res,
     count[tmp]++;
   }
 
-  int sum=0;
+  int sum = 0;
   if (iter == 3) {
     for (int i = 128; i < 256; i++) {
       sum += count[i];
@@ -48,49 +49,47 @@ void Radix_sort_iter(std::vector<int>& source, std::vector<int>& res,
     }
   }
 
-  long* cp;
+  int* cp;
   for (int i = 0; i < n; i++) {
     res[count[*br]] = source[i];
     count[*br]++;
     br += 4;
   }
+  return res;
 }
 
 std::vector<int> Radix_sort(const std::vector<int>& vec) {
   int length = vec.size();
-  std::vector<int> source(vec);
-  std::vector<int> res(length);
-  long* count = new long[256];
-  Radix_sort_iter(source, res, count, length, 0);
-  Radix_sort_iter(res, source, count, length, 1);
-  Radix_sort_iter(source, res, count, length, 2);
-  Radix_sort_iter(res, source, count, length, 3);
+  std::vector<int> res(vec);
+  int* count = new int[256];
+  for (int i = 0; i < 4; i++)
+    res = Radix_sort_iter(res, count, length, i);
   delete[] count;
-  return source;
+  return res;
 }
 
-std::vector<int> Merge_sort(const std::vector<int>& loc_vec, int loc_size, 
+std::vector<int> Merge_sort(const std::vector<int>& loc_vec, int loc_size,
                               const std::vector<int> neig_vec, int neig_size) {
   std::vector<int> res(loc_size + neig_size);
-  int l=0, n=0, r=0;
+  int l = 0, n = 0, r = 0;
   while (l < loc_size && n < neig_size) {
     if (loc_vec[l] < neig_vec[n]) {
-      res[r]=loc_vec[l];
+      res[r] = loc_vec[l];
       r++;
       l++;
     } else {
-      res[r]=neig_vec[n];
+      res[r] = neig_vec[n];
       n++;
       r++;
     }
   }
   while (l < loc_size) {
-    res[r]=loc_vec[l];
+    res[r] = loc_vec[l];
     r++;
     l++;
   }
   while (n < neig_size) {
-    res[r]=neig_vec[n];
+    res[r] = neig_vec[n];
     r++;
     n++;
   }
@@ -130,11 +129,11 @@ std::vector<int> Par_Radix_sort(std::vector<int> source) {
   int iter_length = length;
   int sosed;
   int loc_size = length;
-  if (rank==0)
+  if (rank == 0)
     loc_size+=ost;
 
   while (1) {
-    if (rank == 0 && i<=1) {
+    if (rank == 0 && i <= 1) {
       return local_vec;
     }
 
@@ -142,7 +141,7 @@ std::vector<int> Par_Radix_sort(std::vector<int> source) {
       if (rank == 0) {
         MPI_Status status1;
         neig_vec.resize(iter_length);
-        sosed= pow2(iter - 1) * (i - 1);
+        sosed = pow2(iter - 1) * (i - 1);
         MPI_Recv(&neig_vec[0], iter_length, MPI_INT, sosed, 1, MPI_COMM_WORLD, &status1);
         local_vec.resize(loc_size + iter_length);
         local_vec = Merge_sort(local_vec, loc_size, neig_vec, iter_length);

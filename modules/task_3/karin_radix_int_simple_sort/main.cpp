@@ -7,11 +7,11 @@
 TEST(Radix_sort, radix_sort_is_working_with_unsigned) {
   std::vector<int> mas(100);
   std::vector<int> res(100);
-  for (int i=100; i>0; i--)
+  for (int i = 100; i > 0; i--)
     mas[100-i] = i*i*i*i;
   res = Radix_sort(mas);
-  for (int i=0; i<99; i++)
-    ASSERT_TRUE(res[i]<=res[i+1]);
+  for (int i = 0; i < 99; i++)
+    ASSERT_TRUE(res[i] <= res[i+1]);
 }
 
 TEST(Radix_sort, radix_sort_is_working_with_signed) {
@@ -19,7 +19,7 @@ TEST(Radix_sort, radix_sort_is_working_with_signed) {
   std::vector<int> res(100);
   for (int i = 100; i > 0; i--)
     mas[100 - i] = i * i * i * i;
-  for (int i=0; i<100; i+=2)
+  for (int i = 0; i < 100; i+=2)
     mas[i] = -mas[i];
   res = Radix_sort(mas);
   for (int i = 0; i < 99; i++)
@@ -33,7 +33,7 @@ TEST(Radix_sort, Par_Radix_sort_is_working) {
   std::vector<int> vec(100);
   std::vector<int> res(100);
   std::vector<int> res2(100);
-  if (rank == 0){
+  if (rank == 0) {
     for (int i = 100; i > 0; i--)
       vec[100 - i] = i * i * i * i;
     for (int i = 0; i < 100; i += 2)
@@ -42,7 +42,7 @@ TEST(Radix_sort, Par_Radix_sort_is_working) {
 
   res = Par_Radix_sort(vec);
 
-  if (rank==0) {
+  if (rank == 0) {
     res2 = Radix_sort(vec);
     ASSERT_EQ(res, res2);
   }
@@ -56,7 +56,7 @@ TEST(Radix_sort, Parallel_with_rand_1000) {
   std::vector<int> res;
   std::vector<int> res2;
   if (rank == 0) {
-    vec=GetRandVec(1000);
+    vec = GetRandVec(1000);
   }
 
   res = Par_Radix_sort(vec);
@@ -95,7 +95,7 @@ TEST(Radix_sort, Parallel_with_rand_and_negative_2000) {
   std::vector<int> res2;
   if (rank == 0) {
     vec = GetRandVec(2000);
-    for (int i=0; i<2000; i+=3)
+    for (int i = 0; i < 2000; i+=3)
       vec[i] = -vec[i];
   }
 
