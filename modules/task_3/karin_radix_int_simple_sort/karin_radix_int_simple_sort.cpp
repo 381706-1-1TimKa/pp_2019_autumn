@@ -137,6 +137,7 @@ std::vector<int> Par_Radix_sort(std::vector<int> source) {
     if (rank == 0 && i<=1) {
       return local_vec;
     }
+
     if (i % 2 == 1) {
       if (rank == 0) {
         MPI_Status status1;
@@ -145,7 +146,7 @@ std::vector<int> Par_Radix_sort(std::vector<int> source) {
         MPI_Recv(&neig_vec[0], iter_length, MPI_INT, sosed, 1, MPI_COMM_WORLD, &status1);
         local_vec.resize(loc_size + iter_length);
         local_vec = Merge_sort(local_vec, loc_size, neig_vec, iter_length);
-        loc_size += length * pow2(iter-1);
+        loc_size += iter_length;
       }
       if (rank == pow2(iter - 1) * (i - 1)) {
         MPI_Send(&local_vec[0], iter_length, MPI_INT, 0, 1, MPI_COMM_WORLD);
@@ -160,7 +161,7 @@ std::vector<int> Par_Radix_sort(std::vector<int> source) {
       MPI_Status status3;
       MPI_Recv(&neig_vec[0], iter_length, MPI_INT, sosed, 3, MPI_COMM_WORLD, &status3);
       local_vec = Merge_sort(local_vec, loc_size, neig_vec, iter_length);
-      loc_size += length * pow2(iter-1);
+      loc_size += iter_length;
     }
     if (rank % pow2(iter) != 0) {
       sosed = rank - pow2(iter-1);
