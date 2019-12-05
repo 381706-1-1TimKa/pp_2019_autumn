@@ -52,9 +52,9 @@ TEST(Radix_sort, Parallel_with_rand_500) {
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
-  std::vector<int> vec;
-  std::vector<int> res;
-  std::vector<int> res2;
+  std::vector<int> vec(500);
+  std::vector<int> res(500);
+  std::vector<int> res2(500);
   if (rank == 0) {
     vec = GetRandVec(500);
   }
@@ -71,9 +71,9 @@ TEST(Radix_sort, Parallel_with_rand_1000) {
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
-  std::vector<int> vec;
-  std::vector<int> res;
-  std::vector<int> res2;
+  std::vector<int> vec(1000);
+  std::vector<int> res(1000);
+  std::vector<int> res2(1000);
   if (rank == 0) {
     vec = GetRandVec(1000);
   }
@@ -90,9 +90,9 @@ TEST(Radix_sort, Parallel_with_rand_and_negative_1000) {
   int rank, size;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
-  std::vector<int> vec;
-  std::vector<int> res;
-  std::vector<int> res2;
+  std::vector<int> vec(1000);
+  std::vector<int> res(1000);
+  std::vector<int> res2(1000);
   if (rank == 0) {
     vec = GetRandVec(1000);
     for (int i = 0; i < 1000; i+=2)
