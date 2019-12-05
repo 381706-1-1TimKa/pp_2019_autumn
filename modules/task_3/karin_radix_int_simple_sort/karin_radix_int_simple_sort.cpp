@@ -19,7 +19,7 @@ std::vector<int> GetRandVec(int size) {
 }
 
 std::vector<int> Radix_sort_iter(const std::vector<int>& source, int n, int iter) {
-  int* count = new int [256];
+  int* count = new int[256];
   std::vector<int> res(source.size());
   unsigned char* br = (unsigned char*)source.data() + iter;
   for (int i = 0; i < 256; i++)
